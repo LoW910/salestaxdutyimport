@@ -1,31 +1,30 @@
 ﻿@using DealerOnSalesTaxAndImport.Models
-<div class="col-6">
-
-    <h3>Enter Your Shopping List</h3>
-    <fieldset>
-        <label for="ShoppingList">
-            <textarea id="ShoppingList" cols=40 rows=10 @bind="NewItems" @bind:event="onchange"></textarea>
-        </label>
-    </fieldset>
-    <button type="submit" @onclick="OnSubmitList">Submit</button>
-</div>
-<div class="col-8">
-    <h3>Your Receipt</h3>
-    @if(MyReceipt?.Any() ?? false)
-    {
-        <ul>
-            @foreach (KeyValuePair<string,string> item in MyReceipt)
+<div class="container">
+    <div class="row">
+        <div class="col">
+                <h3>Enter Your Shopping List</h3>
+                    <textarea class="form-control" id="ShoppingList" cols=30 rows=10 @bind="NewItems" @bind:event="onchange"></textarea>
+                <br />
+                <button class="btn btn-primary" type="submit" @onclick="OnSubmitList">Submit</button>
+        </div>
+        <div class="col">
+            <h3>Your Receipt</h3>
+            @if(MyReceipt?.Any() ?? false)
             {
-                <li>@item.Key: @item.Value</li>
+                <ul>
+                    @foreach (KeyValuePair<string,string> item in MyReceipt)
+                    {
+                        <li>@item.Key: @item.Value</li>
+                    }
+                </ul>
             }
-        </ul>
-    }
+        </div>
+    </div>
 </div>
 
 
 @code {
     public List<Item> ShopItems { get; set; }
-
     public string NewItems { get; set; }
     public Dictionary<string, string> MyReceipt { get; set; }
 
@@ -40,8 +39,8 @@
     {
         ShopItems.Clear();
         MyReceipt.Clear();
-        // check if NewItems is not empty
-        if (NewItems != " ")
+        // check if NewItems is not empty or just whitespace
+        if (NewItems != null && NewItems == NewItems.Trim())
         {
             // create temp array from NewItems being split at "1 "
             string[] firstSplit = NewItems.Split("1 ");
@@ -49,7 +48,7 @@
             foreach (var item in firstSplit)
             {
                 string[] finalSplit = item.Split(" at ");
-                // if the item length is greater than 0
+                // if the item length is greater than 0 create a new item and check if the items name contains imported
                 if (finalSplit[0].Length > 0)
                 {
                     ShopItems.Add(new Item ( finalSplit[0], decimal.Parse(finalSplit[1]), CheckImport(finalSplit[0])));
@@ -61,6 +60,7 @@
 
     }
 
+    // checks if an item has imported in its name  
     protected bool CheckImport(string item)
     {
         bool result = item.Contains("Imported") ? false : true;

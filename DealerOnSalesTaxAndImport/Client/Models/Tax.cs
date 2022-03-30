@@ -6,8 +6,8 @@
     public class Tax
     {
         public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public decimal Rate { get; set; } = .10m;  // ensures default tax rate of 10% if not changed
+        public string Name { get; set; }
+        public decimal Rate { get; set; } 
 
         public Tax(string name = "", decimal rate = .10m )
         {
@@ -15,7 +15,9 @@
             Rate = rate;
         }
 
-        // checks if the item is tax exempt, changes rate to zero 
+        // checks if the item is tax exempt,
+        // changes rate to zero,
+        // creates and returns result of tax.amount 
         public decimal Exempt(Item item)
         {
             decimal result = 0;

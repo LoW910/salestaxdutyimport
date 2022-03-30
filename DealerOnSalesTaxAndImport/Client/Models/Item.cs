@@ -6,7 +6,6 @@
         public string Name { get; set; }
         public decimal Price { get; set; }
         public IsImported Imported { get; set; }
-        //public string Type { get; set; } = string.Empty;
 
 
         public Item(string name, decimal price, bool imported)
