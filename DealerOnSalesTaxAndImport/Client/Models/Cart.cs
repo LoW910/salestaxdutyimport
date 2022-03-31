@@ -103,12 +103,14 @@ namespace DealerOnSalesTaxAndImport.Models
                     }
                 }
             }
+            if (Items.Count > 0) 
+            {
+                // adds the Total Tax to the result`    
+                Result.Add("Sales Tax", TotalTax.ToString());
 
-            // adds the Total Tax to the result`    
-            Result.Add("Sales Tax", TotalTax.ToString());
-
-            // adds the TotalSales to the result
-            Result.Add("Total", TotalSale.ToString());
+                // adds the TotalSales to the result
+                Result.Add("Total", TotalSale.ToString());
+            }
 
             return Result;
         }

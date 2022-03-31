@@ -11,12 +11,12 @@
             <h3>Your Receipt</h3>
             @if(MyReceipt?.Any() ?? false)
             {
-                <ul>
+                
                     @foreach (KeyValuePair<string,string> item in MyReceipt)
                     {
-                        <li>@item.Key: @item.Value</li>
+                      <h6> @item.Key: @item.Value </h6>
                     }
-                </ul>
+                
             }
         </div>
     </div>
@@ -40,7 +40,7 @@
         ShopItems.Clear();
         MyReceipt.Clear();
         // check if NewItems is not empty or just whitespace
-        if (NewItems != null && NewItems == NewItems.Trim())
+        if (NewItems != null && NewItems.Trim().Length > 0 )
         {
             // create temp array from NewItems being split at "1 "
             string[] firstSplit = NewItems.Split("1 ");
@@ -51,7 +51,7 @@
                 // if the item length is greater than 0 create a new item and check if the items name contains imported
                 if (finalSplit[0].Length > 0)
                 {
-                    ShopItems.Add(new Item ( finalSplit[0], decimal.Parse(finalSplit[1]), CheckImport(finalSplit[0])));
+                    ShopItems.Add(new Item ( finalSplit[0], decimal.Parse(finalSplit[1].Trim()), CheckImport(finalSplit[0])));
                 }
                 NewItems = string.Empty;
             }
@@ -80,7 +80,6 @@
         }
         else
         {
-            PrintedReceipt.Clear();
             return PrintedReceipt;
         }
     }
